@@ -68,6 +68,11 @@ img {
   display: none;
 }
 
+.error-message {
+  color: red;
+  font-size: 15px;
+}
+
 @media screen and (max-width: 768px) {
   .topnav a {display: none;}
   .topnav a.icon {
@@ -138,6 +143,10 @@ main {
 }
 
 /* Modal form */
+
+#succes {
+  display: none;
+}
 
 .button {
   background: #fe142f;
@@ -333,6 +342,19 @@ input[data-error]::after {
   cursor: pointer;
   border: 0;
 }
+
+.btn-close {
+  background: #fe142f;
+  display: block;
+  margin: 0 auto;
+  border-radius: 7px;
+  font-size: 1rem;
+  padding: 12px 82px;
+  color: #fff;
+  cursor: pointer;
+  border: 0;
+}
+
 /* custom select styles */
 .custom-select {
   position: relative;
