@@ -32,37 +32,44 @@ close.addEventListener("click", closeModal);
 
 function closeModal() {
   modalbg.style.display = "";
+  form.reset();
 }
 
 closeValidate.addEventListener("click", closeValidation);
 
 function closeValidation() {
   modalbg.style.display = "";
+  form.style.display = "block";
+  succes.style.display = "none";
+  form.reset();
 }
 
 let formData = {
   first: {
     required: true,
     minLength: 2,
-    letter:  /^[A-Za-z]+$/,
+    regex:  /^[A-Za-z]+$/,
+    regexMessage: "Le champ ne doit pas contenir de caractere speciaux"
   },
   last: {
     required: true,
     minLength: 2,
-    letter:  /^[A-Za-z]+$/,
+    regex:  /^[A-Za-z]+$/,
+    regexMessage: "Le champ ne doit pas contenir de caractere speciaux"
   },
   email: {
     required: true,
-    realmail: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+    regex: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+    regexMessage: "L'email n'est pas valide"
   },
   birthdate: {
     required: true,
-    date: /^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/ ,
+    regex: /^(((0[1-9]|[12]\d|3[01])\/(0[13578]|1[02])\/((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\/(0[13456789]|1[012])\/((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\/02\/((19|[2-9]\d)\d{2}))|(29\/02\/((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/ ,
+    regexMessage: "La date n'est pas valide"
   },
   quantity: {
     required: true,
     number: isNaN(),
-    goodnumber: /^[1-9][0-9]?$/ ,
   },
   location: {
     required: true,
@@ -87,6 +94,14 @@ function errorMessage(champ, message) {
   champ.parentElement.appendChild(tag);
 }
 
+function clearError() {
+
+let errorMessages = document.getElementsByClassName("error-message");
+while (errorMessages.length > 0) {
+    errorMessages.remove();
+ }
+}
+
 //fonction pour changer le modal lorsque tout est respecté plus affichage message
 function succesMessage () {
   form.style.display = "none";
@@ -94,6 +109,7 @@ function succesMessage () {
 }
 
 function validateForm(myObject) {
+  clearError();
   let hasError = false;
   for (let [key, constraint] of Object.entries(myObject)) {
     const field = document.getElementsByName(key)[0];
@@ -106,28 +122,14 @@ function validateForm(myObject) {
       hasError = true;
       errorMessage(field, "Le champ doit contenir au moins deux caractères"); 
     }
-    else if (constraint.letter && constraint.letter.test(field.value) === false) {
+    else if (constraint.regex && constraint.regex.test(field.value) === false) {
       hasError = true;
-      errorMessage(field, "Le champ ne peut pas contenir de nombre"); 
-    }
-    //Si mail incorrect
-    else if (constraint.realmail && constraint.realmail.test(field.value) === false) {
-      hasError = true;
-      errorMessage(field, "Le mail n'est pas correct");
-    }
-    //Si date incorrect 
-    else if (constraint.date && constraint.date.test(field.value) === false) {
-      hasError = true;
-      errorMessage(field, "La date est invalide");
+      errorMessage(field, constraint.regexMessage); 
     }
     //Si nombre de tournoi pas nombre
     else if (constraint.number && isNaN(field.value)) {
       hasError = true;
       errorMessage(field, "un nombre doit etre renseigné");
-    }
-    else if (constraint.number && constraint.goodnumber.test(field.value) === false) {
-      hasError = true;
-      errorMessage(field, "le nombre renseigné doit etre compris entre 1 et 99");
     }
     //Si pays n'est pas check
     else if (constraint.type && field.checked === false) {
@@ -161,60 +163,4 @@ document.getElementsByName("reserve")[0].addEventListener("submit", (e) => {
   }
 });
 
-///////////////////////////////
 
-//let homme = {
-//  age: 37,
-//  poid: 100,
-//  nationalite: "francais",
-//};
-
-//function checkAge() {
-//  if (homme.age >= 35) {
-//    //alert("trop vieu")
-//  } else if (homme.age <= 18) {
-//    alert("trop jeune");
-//  } else {
-//    alert("vous pouvez rentrer");
-//  }
-//}
-
-//checkAge();
-
-//let camion = {
-//  gros: {
-//   poid: 100,
-//    vitesse: 50,
-//  },
-//  leger: {
-//    poid: 50,
-//    vitesse: 80,
-//  },
-//};
-
-//let grosCamion = camion.gros.poid;
-//console.log(grosCamion);
-
-//for (const property in camion) {
-//  console.log(property, camion[property]);
-//}
-
-//if (age > 70) {
-//  if (sexe === "M") {
-//    console.log("Vous êtes vieux");
-//  } else {
-//    console.log("Vous êtes veille");
-//  }
-//} else if (age > 18) {
-//  if (sexe === "M") {
-//    console.log("Vous êtes un adulte");
-//  } else {
-//    console.log("Vous êtes une adulte");
-//  }
-//} else {
-//  if (sexe === "M") {
-//    console.log("Vous êtes un enfant");
-//  } else {
-//    console.log("Vous êtes une enfant");
-//  }
-//}
