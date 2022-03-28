@@ -9,7 +9,6 @@ function editNav() {
 
 // DOM Elements
 const modalbg = document.querySelector(".bground");
-const modalSucces = document.querySelector("#succes");
 const modalBtn = document.querySelectorAll(".modal-btn");
 //const formData = document.querySelectorAll(".formData");
 // ce qu'on a rajouté
@@ -31,6 +30,7 @@ function launchModal() {
 close.addEventListener("click", closeModal);
 
 function closeModal() {
+  clearError();
   modalbg.style.display = "";
   form.reset();
 }
@@ -69,7 +69,7 @@ let formData = {
   },
   quantity: {
     required: true,
-    number: isNaN(),
+    number: true,
   },
   location: {
     required: true,
@@ -98,7 +98,7 @@ function clearError() {
 
 let errorMessages = document.getElementsByClassName("error-message");
 while (errorMessages.length > 0) {
-    errorMessages.remove();
+    errorMessages[0].remove();
  }
 }
 
@@ -129,7 +129,7 @@ function validateForm(myObject) {
     //Si nombre de tournoi pas nombre
     else if (constraint.number && isNaN(field.value)) {
       hasError = true;
-      errorMessage(field, "un nombre doit etre renseigné");
+      errorMessage(field, "Un nombre doit etre renseigné");
     }
     //Si pays n'est pas check
     else if (constraint.type && field.checked === false) {
