@@ -10,8 +10,6 @@ function editNav() {
 // DOM Elements
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
-//const formData = document.querySelectorAll(".formData");
-// ce qu'on a rajouté
 const form = document.querySelector(".inscription");
 const closeValidate = document.querySelector(".btn-close");
 const close = document.querySelector(".close");
@@ -89,11 +87,10 @@ function errorMessage(champ, message) {
   let text = document.createTextNode(message);
   //ajout texte dans le p
   tag.appendChild(text);
-  //creation variable comprenant toutes les classes formData html
-  //let champ = document.getElementsByClassName("formData");
   champ.parentElement.appendChild(tag);
 }
 
+//fonction permettant d'effacer le 1er message d'erreur à chaque tentative 
 function clearError() {
 
 let errorMessages = document.getElementsByClassName("error-message");
@@ -145,15 +142,6 @@ function validateForm(myObject) {
   }
   return hasError
 }
-
-//je parcours mon obj formdata
-//je cherche dans le dom l'element qui a l'id correspondant a la clé de mon obj formdata
-//je crée une fonction pour check que données des clés soit correct
-//si les données ne sont pas correct ajout d'un paragraphe a l'element html avec message erreur
-//si elles sont bonnes message de confirmation de l'envoie
-
-//value off checkbox
-//clear les errors quand ok
 
 document.getElementsByName("reserve")[0].addEventListener("submit", (e) => {
   e.preventDefault();
